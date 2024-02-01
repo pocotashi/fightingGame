@@ -2,8 +2,8 @@ import { Fighter } from "./Fighter.js";
 import { FighterState } from "../../constants/fighter.js";
 
 export class Dhalsim extends Fighter {
-    constructor(x, y, velocity){
-        super("Dhalsim", x, y, velocity);
+    constructor(x, y, direction, playerId){
+        super("Dhalsim", x, y, direction, playerId);
         this.image = document.querySelector('img[alt="dhalsim"]');
         this.frames = new Map([
             //idle stance
@@ -31,17 +31,23 @@ export class Dhalsim extends Fighter {
             ['backwards-6',[[629, 827, 69, 107], [35,105]]],
 
             //jump up 
-            ['jump-up-1', [[353, 1172, 61, 79], [30, 85]]],
+            ['jump-up-1', [[354, 1175, 61, 77], [30, 85]]],
             ['jump-up-2', [[447, 1159, 68, 94], [34, 98]]],
             ['jump-up-3', [[542, 1120, 62, 127], [30, 130]]],
             ['jump-up-4', [[644, 1135, 62, 93], [30, 99]]],
             ['jump-up-5', [[737, 1123, 63, 73], [30, 80]]],
 
-            //jump forward/backward
-            ['jump-roll-1', [[32, 1307, 60, 118], [30, 106]]],
-            ['jump-roll-2', [[117, 1320, 71, 93], [35, 90]]],
-            ['jump-roll-3', [[209, 1317, 64, 72], [30, 68]]],
-            ['jump-roll-4', [[291, 1317, 98, 94], [45, 90]]],
+            //jump forward/backward  
+            ['jump-roll-1', [[354, 1175, 61, 77], [30, 85]]],
+            ['jump-roll-2', [[447, 1159, 68, 94], [34, 98]]],
+            ['jump-roll-3', [[32, 1307, 60, 118], [30, 106]]],
+            ['jump-roll-4', [[117, 1320, 71, 93], [35, 90]]],
+            ['jump-roll-5', [[209, 1317, 64, 72], [30, 68]]],
+            ['jump-roll-6', [[291, 1317, 98, 94], [45, 90]]],
+            ['jump-roll-7', [[32, 1307, 60, 118], [30, 106]]],
+
+            // Jump first//last frame
+            ['jump-land', [[354, 1175, 61, 77], [30, 85]]],
 
              //crouch
              ['crouch-1', [[25, 1160, 66, 91], [30, 88]]],
@@ -63,19 +69,26 @@ export class Dhalsim extends Fighter {
                 ['backwards-1',65], ['backwards-2',65], ['backwards-3',65], 
                 ['backwards-4',65], ['backwards-5',65], ['backwards-6',65]
             ],
+            [FighterState.JUMP_START]:  [
+                ['jump-land', 50], ['jump-land', -2],
+            ],
             [FighterState.JUMP_UP]: [
                 ['jump-up-1', 100], ['jump-up-2', 100], ['jump-up-3',100], 
-                ['jump-up-4', 100], ['jump-up-5', 100], ['jump-up-4', -1]
+                ['jump-up-4', 100], ['jump-up-5', 100], ['jump-up-4', 100],
+                ['jump-up-3', 100], ['jump-up-2', -1]
             ],
             [FighterState.JUMP_FORWARD]: [
                 ['jump-roll-1', 200], ['jump-roll-2', 50], ['jump-roll-3',50], 
-                ['jump-roll-4', 50], ['jump-roll-3', 50], ['jump-roll-2',50],
-                ['jump-roll-1', 0]
+                ['jump-roll-4', 50], ['jump-roll-5', 50], ['jump-roll-6',50],
+                ['jump-roll-7', 50],  ['jump-roll-7', 0]
             ],
             [FighterState.JUMP_BACKWARD]: [
-                ['jump-roll-4', 200], ['jump-roll-3', 50], ['jump-roll-2',50], 
-                ['jump-roll-1', 50], ['jump-roll-3', 50], ['jump-roll-2',50],
-                ['jump-roll-2', 50], ['jump-roll-1', 0]
+                ['jump-roll-7', 200], ['jump-roll-6', 50], ['jump-roll-5',50], 
+                ['jump-roll-4', 50], ['jump-roll-3', 50], ['jump-roll-2',50],
+                ['jump-roll-1', 50], ['jump-roll-1', 0]
+            ],
+            [FighterState.JUMP_LAND]:  [
+                ['jump-land', 33], ['jump-land', 117],['jump-land', -2]
             ],
             [FighterState.CROUCH]: [['crouch-3', 0]],
             [FighterState.CROUCH_DOWN]: [

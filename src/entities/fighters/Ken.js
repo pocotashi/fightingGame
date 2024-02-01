@@ -2,8 +2,8 @@ import { FighterState } from '../../constants/fighter.js';
 import {Fighter} from './Fighter.js';
 
 export class Ken extends Fighter {
-    constructor(x, y, velocity) {
-        super('Ken', x, y, velocity);
+    constructor(x, y, direction, playerId) {
+        super('Ken', x, y, direction, playerId);
         this.image = document.querySelector('img[alt="ken"]');
         this.frames = new Map([
             //idle stance
@@ -45,6 +45,9 @@ export class Ken extends Fighter {
             ['jump-roll-6', [[1664, 976, 72, 89], [53, 98]]],
             ['jump-roll-7', [[1748, 977, 55, 103], [32, 107]]],
 
+            // Jump first//last frame
+            ['jump-land', [[660, 1060, 55, 85], [29,83]]],
+            
             //crouch
             ['crouch-1', [[8, 779, 53, 83], [25, 106]]],
             ['crouch-2', [[78, 792, 59, 72], [25, 66]]],
@@ -67,6 +70,9 @@ export class Ken extends Fighter {
                 ['backwards-1',65], ['backwards-2',65], ['backwards-3',65], 
                 ['backwards-4',65], ['backwards-5',65], ['backwards-6',65]
             ],
+            [FighterState.JUMP_START]:  [
+                ['jump-land', 50], ['jump-land', -2],
+            ],
             [FighterState.JUMP_UP]: [
                 ['jump-up-1', 100], ['jump-up-2', 100], ['jump-up-3',100], 
                 ['jump-up-4', 100], ['jump-up-5', 100], ['jump-up-6', -1]
@@ -80,6 +86,9 @@ export class Ken extends Fighter {
                 ['jump-roll-7', 200], ['jump-roll-6', 50], ['jump-roll-5',50], 
                 ['jump-roll-4', 50], ['jump-roll-3', 50], ['jump-roll-4', 50],
                 ['jump-roll-1', 0]
+            ],
+            [FighterState.JUMP_LAND]:  [
+                ['jump-land', 33], ['jump-land', 117],['jump-land', -2]
             ],
             [FighterState.CROUCH]: [['crouch-3', 0]],
             [FighterState.CROUCH_DOWN]: [
